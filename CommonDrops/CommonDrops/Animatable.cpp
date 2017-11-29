@@ -21,11 +21,16 @@ Animatable::Animatable(const Texture &texture,
 
 Sprite Animatable::getNextFrame(const float vel)
 {
+	return getNextFrame(vel, 0);
+}
+
+Sprite Animatable::getNextFrame(const float vel, const unsigned int row)
+{
 	if (lastTime.asSeconds() + vel < _Animatable_clock->getElapsedTime().asSeconds()) {
 		(currentFrame >= frames) ? currentFrame = 0 : currentFrame++;
 		lastTime = _Animatable_clock->getElapsedTime();
 	}
-	return getSprite(currentFrame, 0);
+	return getSprite(currentFrame, row);
 }
 
 Animatable::~Animatable()

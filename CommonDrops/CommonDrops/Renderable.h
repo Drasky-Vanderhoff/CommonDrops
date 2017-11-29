@@ -14,7 +14,8 @@ public:
 	Renderable(const sf::Texture &texture, const sf::Vector2u frameSize);
 	sf::Sprite getSprite();
 	sf::Sprite getSprite(const unsigned int frameIdxX, const unsigned int frameIdxY);
-	void move(const float x, const float y);
+	void move(const float x, const float y); 
+	void scale(const float x, const float y);
 	~Renderable();
 };
 

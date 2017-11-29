@@ -38,3 +38,7 @@ Sprite Renderable::getSprite(const unsigned int frameIdxX, const unsigned int fr
 void Renderable::move(const float x, const float y) {
 	sprite->setPosition(x, y);
 }
+
+void Renderable::scale(const float x, const float y) {
+	sprite->setScale(x, y);
+}

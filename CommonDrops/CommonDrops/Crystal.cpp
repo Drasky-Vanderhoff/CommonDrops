@@ -7,22 +7,22 @@ Texture* getTexture(CrystalColor color)
 {
 	switch (color)
 	{
-	case blue:
+	case BLUE:
 		return &blueCrystalColorTexture;
 		break;
-	case green:
+	case GREEN:
 		return &greenCrystalColorTexture;
 		break;
-	case grey:
+	case GREY:
 		return &greyCrystalColorTexture;
 		break;
-	case orange:
+	case ORANGE:
 		return &orangeCrystalColorTexture;
 		break;
-	case pink:
+	case PINK:
 		return &pinkCrystalColorTexture;
 		break;
-	case yellow:
+	case YELLOW:
 		return &yellowCrystalColorTexture;
 		break;
 	default:

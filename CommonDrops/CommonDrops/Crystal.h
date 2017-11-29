@@ -1,7 +1,7 @@
 #pragma once
 #include "Animatable.h"
 
-enum CrystalColor{blue, green, grey, orange, pink, yellow, _CrystalColorSize};
+enum CrystalColor{BLUE, GREEN, GREY, ORANGE, PINK, YELLOW, _CRYSTAL_COLOR_SIZE};
 
 static sf::Texture blueCrystalColorTexture;
 static sf::Texture greenCrystalColorTexture;
