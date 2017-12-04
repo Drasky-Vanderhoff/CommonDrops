@@ -1,6 +1,6 @@
-﻿  CommonDrops.cpp
-c:\users\usuario\proyectos\visual studio\commondrops\commondrops\commondrops\commondrops.cpp(57): warning C4244: 'argumento': conversión de 'const unsigned int' a 'const float'; posible pérdida de datos
-c:\users\usuario\proyectos\visual studio\commondrops\commondrops\commondrops\commondrops.cpp(126): warning C4244: 'argumento': conversión de 'const unsigned int' a 'const float'; posible pérdida de datos
-c:\users\usuario\proyectos\visual studio\commondrops\commondrops\commondrops\commondrops.cpp(134): warning C4244: 'argumento': conversión de 'const unsigned int' a 'const float'; posible pérdida de datos
-c:\users\usuario\proyectos\visual studio\commondrops\commondrops\commondrops\commondrops.cpp(178): warning C4305: 'argumento': truncamiento de 'double' a 'const float'
+﻿  CrystalMatrix.cpp
+c:\users\usuario\proyectos\visual studio\commondrops\commondrops\commondrops\crystalmatrix.cpp(14): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+c:\users\usuario\proyectos\visual studio\commondrops\commondrops\commondrops\crystalmatrix.cpp(24): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+c:\users\usuario\proyectos\visual studio\commondrops\commondrops\commondrops\crystalmatrix.cpp(39): warning C4244: 'argumento': conversión de 'unsigned int' a 'const float'; posible pérdida de datos
+c:\users\usuario\proyectos\visual studio\commondrops\commondrops\commondrops\crystalmatrix.cpp(40): warning C4305: 'argumento': truncamiento de 'double' a 'const float'
   CommonDrops.vcxproj -> C:\Users\Usuario\Proyectos\Visual Studio\CommonDrops\CommonDrops\Debug\CommonDrops.exe

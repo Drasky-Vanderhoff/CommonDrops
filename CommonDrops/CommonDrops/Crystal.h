@@ -18,6 +18,7 @@ private:
 public:
 	Crystal::Crystal(const CrystalColor color);
 	static void Crystal::initializeClass();
+	CrystalColor getColor() const;
 	~Crystal();
 };
 

@@ -43,7 +43,9 @@ void Crystal::initializeClass() {
 	orangeCrystalColorTexture.loadFromFile("graphics/crystals-32/orange.png");
 	pinkCrystalColorTexture.loadFromFile("graphics/crystals-32/pink.png");
 	yellowCrystalColorTexture.loadFromFile("graphics/crystals-32/yellow.png");
-};
+}
+
+CrystalColor Crystal::getColor() const { return color; }
 
 
 Crystal::~Crystal()
