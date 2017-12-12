@@ -1,3 +1,0 @@
-﻿  CommonDrops.cpp
-c:\users\usuario\proyectos\visual studio\commondrops\commondrops\commondrops\commondrops.cpp(89): warning C4930: 'CrystalMatrix crystalHolder(void)': no se ha llamado a la función prototipo (¿se pensó una definición de variable?)
-  CommonDrops.vcxproj -> C:\Users\Usuario\Proyectos\Visual Studio\CommonDrops\CommonDrops\Debug\CommonDrops.exe

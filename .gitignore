@@ -32,8 +32,9 @@
 *.app
 
 #Debug Directories
-CommonDrops/Debug
-CommonDrops/CommonDrops/Debug
+\CommonDrops/Debug
+\CommonDrops/CommonDrops/Debug
 
 # More things to ignore
 CommonDrops/*.htm
+\.vs/
