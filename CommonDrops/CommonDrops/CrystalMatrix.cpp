@@ -91,6 +91,9 @@ unsigned int CrystalMatrix::destroyRepeatedCrystalsFromPosition(const Vector2u p
 	while (getBackCrystalColor(Vector2u(position.x, crystalRange.y + 1)) == color) crystalRange.y++;
 	if(crystalRange.y - crystalRange.x >= minDistance)
 	{
+		col->erase(col->begin() + crystalRange.x, col->begin() + crystalRange.y + 1);
+		result += crystalRange.y - crystalRange.x;
+
 		for (size_t i = crystalRange.x; i < crystalRange.y; i++)
 		{
 			// TODO: There is a crash error when a crystal is called to be destroyed and it was already destroyed.
@@ -99,8 +102,6 @@ unsigned int CrystalMatrix::destroyRepeatedCrystalsFromPosition(const Vector2u p
 			if (getBackCrystalColor(Vector2u(position.x + 1, i)) == color) 
 				result += destroyRepeatedCrystalsFromPosition(Vector2u(position.x + 1, i), color, 0);
 		}
-		col->erase(col->begin() + crystalRange.x, col->begin() + crystalRange.y + 1);
-		result += crystalRange.y - crystalRange.x;
 	}
 
 	return result;

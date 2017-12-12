@@ -15,7 +15,7 @@ Player::Player(const char *characterTextureFile,
 			   objective(sourceMatrix)
 {
 	textureCharacter.loadFromFile(characterTextureFile);
-	character = new Animatable(textureCharacter, Vector2u(16, 16), 3);
+	character = new Animatable(textureCharacter, Vector2u(14, 14), 3);
 	character->scale(2.0f, 2.0f);
 	character->move(characterInitialPosition.x, characterInitialPosition.y);
 }

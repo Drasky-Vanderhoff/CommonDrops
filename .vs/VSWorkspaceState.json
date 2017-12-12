@@ -1,6 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\CommonDrops",
+    "\\CommonDrops\\CommonDrops\\graphics\\backgrounds",
+    "\\CommonDrops\\CommonDrops\\graphics\\character",
+    "\\CommonDrops\\CommonDrops\\graphics\\crystals-32",
+    "\\CommonDrops\\CommonDrops\\graphics\\tilemaps"
   ],
+  "SelectedNode": "\\CommonDrops\\CommonDrops",
   "PreviewInSolutionExplorer": false
 }

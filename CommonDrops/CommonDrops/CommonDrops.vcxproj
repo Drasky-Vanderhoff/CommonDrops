@@ -151,6 +151,7 @@
     <ClInclude Include="Animatable.h" />
     <ClInclude Include="Crystal.h" />
     <ClInclude Include="CrystalMatrix.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderable.h" />
     <ClInclude Include="stdafx.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="CommonDrops.cpp" />
     <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="CrystalMatrix.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderable.cpp" />
     <ClCompile Include="stdafx.cpp">

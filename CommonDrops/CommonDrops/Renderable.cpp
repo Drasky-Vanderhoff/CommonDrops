@@ -20,6 +20,13 @@ Renderable::Renderable(const Texture &texture, const Vector2u frameSize)
 	sprite->setTextureRect(IntRect(0, 0, frameSize.x, frameSize.y));
 }
 
+Renderable::Renderable(const Texture &texture, const Vector2i frameSize, const Vector2i framePosition)
+	: texture(texture), frameSize(frameSize), sprite(new Sprite)
+{
+	sprite->setTexture(texture);
+	sprite->setTextureRect(IntRect(framePosition, frameSize));
+}
+
 // FIX: Deleting the sprite generates problems
 Renderable::~Renderable()
 {
