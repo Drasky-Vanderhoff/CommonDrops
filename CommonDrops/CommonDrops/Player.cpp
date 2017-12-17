@@ -53,15 +53,17 @@ bool Player::processEvents(bool *gameOver, unsigned int* score)
 
 	if (Keyboard::isKeyPressed(Keyboard::C))
 	{
-		while (stack.getBackCrystalColor(0) != CrystalColor::_CRYSTAL_COLOR_SIZE && !*gameOver)
-		{
-			*gameOver = objective->trasferCrystalFromMatrix(playerPosition, &stack, 0);
-		}
+		if (stack.getBackCrystalColor(0) != CrystalColor::_CRYSTAL_COLOR_SIZE && !*gameOver) {
+			while (stack.getBackCrystalColor(0) != CrystalColor::_CRYSTAL_COLOR_SIZE && !*gameOver)
+			{
+				*gameOver = objective->trasferCrystalFromMatrix(playerPosition, &stack, 0);
+			}
 
-		*score += objective->destroyRepeatedCrystalsFromColumn(playerPosition, currentColor);
-		characterActionState = CharacterState::ACTION;
-		currentColor = CrystalColor::_CRYSTAL_COLOR_SIZE;
-		result = false;
+			*score += objective->destroyRepeatedCrystalsFromColumn(playerPosition, currentColor);
+			characterActionState = CharacterState::ACTION;
+			currentColor = CrystalColor::_CRYSTAL_COLOR_SIZE;
+			result = false;
+		}
 	}
 
 	return result;

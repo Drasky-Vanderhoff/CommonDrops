@@ -62,10 +62,10 @@ CrystalColor CrystalMatrix::getBackCrystalColor(int col) const
 	else return CrystalColor::_CRYSTAL_COLOR_SIZE;
 }
 
-CrystalColor CrystalMatrix::getBackCrystalColor(const Vector2u position) const
+CrystalColor CrystalMatrix::getBackCrystalColor(unsigned int x, unsigned int y) const
 {
-	if (position.x >= 0 && position.x < matrixDimensions.x && position.y >= 0 && matrix[position.x].size() > position.y) 
-		return matrix[position.x][position.y]->getColor();
+	if (x >= 0 && x < matrixDimensions.x && y >= 0 && matrix[x].size() > y) 
+		return matrix[x][y]->getColor();
 	else return CrystalColor::_CRYSTAL_COLOR_SIZE;
 }
 
@@ -78,29 +78,40 @@ bool CrystalMatrix::trasferCrystalFromMatrix(const int destCol, CrystalMatrix *s
 
 unsigned int CrystalMatrix::destroyRepeatedCrystalsFromColumn(const unsigned int col, const CrystalColor color)
 {
-	return destroyRepeatedCrystalsFromPosition(Vector2u(col, matrix[col].size() - 1), color, 2);
+	return destroyRepeatedCrystalsFromPosition(Vector2u(col, matrix[col].size() - 1), color, 2, 1);
 }
 
-unsigned int CrystalMatrix::destroyRepeatedCrystalsFromPosition(const Vector2u position, const CrystalColor color, const unsigned int minDistance)
+unsigned int CrystalMatrix::destroyRepeatedCrystalsFromPosition(const Vector2u position, 
+																const CrystalColor color, 
+																const unsigned int minDistance,
+																const unsigned int comboDelta)
 {
 	unsigned int result = 0;
-
 	CrystalVectorType *col = &matrix[position.x];
+	size_t col_size = col->size();
 	Vector2u crystalRange(position.y, position.y);
-	while (getBackCrystalColor(Vector2u(position.x, crystalRange.x - 1)) == color) crystalRange.x--;
-	while (getBackCrystalColor(Vector2u(position.x, crystalRange.y + 1)) == color) crystalRange.y++;
+	while (getBackCrystalColor(position.x, crystalRange.x - 1) == color) crystalRange.x--;
+	while (getBackCrystalColor(position.x, crystalRange.y + 1) == color) crystalRange.y++;
 	if(crystalRange.y - crystalRange.x >= minDistance)
 	{
+		// Remove crystals
 		col->erase(col->begin() + crystalRange.x, col->begin() + crystalRange.y + 1);
-		result += crystalRange.y - crystalRange.x;
+		result += comboDelta * (crystalRange.y - crystalRange.x);
+		
+		// Check Bottom Crystal in case of chain explotions
+		if (col_size > crystalRange.y + 1)
+			// TODO: Replace that 2 with a parameter that affects the combo bonus exponentially
+			result += destroyRepeatedCrystalsFromPosition(Vector2u(position.x, col->size() - 1), getBackCrystalColor(position.x), 2, comboDelta + 1);
 
-		for (size_t i = crystalRange.x; i < crystalRange.y; i++)
+		for (size_t i = crystalRange.x; i <= crystalRange.y; i++)
 		{
-			// TODO: There is a crash error when a crystal is called to be destroyed and it was already destroyed.
-			if (getBackCrystalColor(Vector2u(position.x - 1, i)) == color) 
-				result += destroyRepeatedCrystalsFromPosition(Vector2u(position.x -1, i), color, 0);
-			if (getBackCrystalColor(Vector2u(position.x + 1, i)) == color) 
-				result += destroyRepeatedCrystalsFromPosition(Vector2u(position.x + 1, i), color, 0);
+			// Check Left Crystals Row
+			if (getBackCrystalColor(position.x - 1, i) == color) 
+				result += destroyRepeatedCrystalsFromPosition(Vector2u(position.x -1, i), color, 0, comboDelta);
+
+			// Check Right Crystals Row
+			if (getBackCrystalColor(position.x + 1, i) == color) 
+				result += destroyRepeatedCrystalsFromPosition(Vector2u(position.x + 1, i), color, 0, comboDelta);
 		}
 	}
 
