@@ -18,6 +18,9 @@ private:
 	const sf::Vector2u characterSpriteSize;
 	unsigned int playerPosition = 0;
 	const unsigned int playerLimitPosition;
+	sf::Sound * move;
+	sf::Sound * catch_s;
+	sf::Sound * throw_s;
 public:
 	/* TODO: There are some elements 
 	   ( crystalQueueSize, characterInitialPosition, 
@@ -30,7 +33,10 @@ public:
 		   const unsigned int playerLimitPosition,
 		   const sf::Vector2u crystalQueuePosition,
 		   const unsigned int crystalQueueSize, 
-		   CrystalMatrix * objective);
+		   CrystalMatrix * objective,
+		   sf::Sound * move,
+		   sf::Sound * catch_s,
+		   sf::Sound * throw_s);
 	bool processEvents(bool *gameOver, unsigned int* score);
 	void drawPlayer(sf::RenderWindow &window);
 	~Player();

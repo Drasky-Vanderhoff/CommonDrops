@@ -3,8 +3,8 @@
 
 using namespace sf;
 
-CrystalMatrix::CrystalMatrix(Vector2u startPosition, Vector2u matrixDimensions)
-	: startPosition(startPosition), matrixDimensions(matrixDimensions), matrix()
+CrystalMatrix::CrystalMatrix(Vector2u startPosition, Vector2u matrixDimensions, sf::Sound * combo_s):
+	startPosition(startPosition), matrixDimensions(matrixDimensions), matrix(), combo_s(combo_s)
 {
 	for (size_t i = 0; i < matrixDimensions.x; i++) matrix.push_back(CrystalVectorType());
 }
@@ -78,7 +78,9 @@ bool CrystalMatrix::trasferCrystalFromMatrix(const int destCol, CrystalMatrix *s
 
 unsigned int CrystalMatrix::destroyRepeatedCrystalsFromColumn(const unsigned int col, const CrystalColor color)
 {
-	return destroyRepeatedCrystalsFromPosition(Vector2u(col, matrix[col].size() - 1), color, 2, 1);
+	unsigned int result = destroyRepeatedCrystalsFromPosition(Vector2u(col, matrix[col].size() - 1), color, 2, 1);
+	if (result != 0) { combo_s->play(); }
+	return result;
 }
 
 unsigned int CrystalMatrix::destroyRepeatedCrystalsFromPosition(const Vector2u position, 
@@ -98,6 +100,7 @@ unsigned int CrystalMatrix::destroyRepeatedCrystalsFromPosition(const Vector2u p
 		col->erase(col->begin() + crystalRange.x, col->begin() + crystalRange.y + 1);
 		result += comboDelta * (crystalRange.y - crystalRange.x);
 		
+				
 		// Check Bottom Crystal in case of chain explotions
 		if (col_size > crystalRange.y + 1)
 			// TODO: Replace that 2 with a parameter that affects the combo bonus exponentially
@@ -108,10 +111,11 @@ unsigned int CrystalMatrix::destroyRepeatedCrystalsFromPosition(const Vector2u p
 			// Check Left Crystals Row
 			if (getBackCrystalColor(position.x - 1, i) == color) 
 				result += destroyRepeatedCrystalsFromPosition(Vector2u(position.x -1, i), color, 0, comboDelta);
-
+				
 			// Check Right Crystals Row
 			if (getBackCrystalColor(position.x + 1, i) == color) 
 				result += destroyRepeatedCrystalsFromPosition(Vector2u(position.x + 1, i), color, 0, comboDelta);
+			
 		}
 	}
 

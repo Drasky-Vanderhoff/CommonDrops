@@ -11,12 +11,13 @@ private:
 	const sf::Vector2u startPosition;
 	const sf::Vector2u matrixDimensions;
 	CrystalMatrixType matrix;
+	sf::Sound * combo_s;
 	unsigned int destroyRepeatedCrystalsFromPosition(const sf::Vector2u position,
 													 const CrystalColor color,
 													 const unsigned int minDistance,
 													 const unsigned int comboDelta);
 public:
-	CrystalMatrix(sf::Vector2u startPosition, sf::Vector2u matrixDimensions);
+	CrystalMatrix(sf::Vector2u startPosition, sf::Vector2u matrixDimensions, sf::Sound * combo_s);
 	void fillMatrixWithRandomCrystals();
 	bool addRandomCrystalRowToMatrix();
 	void pushCrystalInCol(int col, Crystal *crystal);
