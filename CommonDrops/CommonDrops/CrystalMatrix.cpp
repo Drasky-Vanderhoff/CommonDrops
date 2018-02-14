@@ -3,8 +3,14 @@
 
 using namespace sf;
 
-CrystalMatrix::CrystalMatrix(Vector2u startPosition, Vector2u matrixDimensions, sf::Sound * combo_s):
-	startPosition(startPosition), matrixDimensions(matrixDimensions), matrix(), combo_s(combo_s)
+CrystalMatrix::CrystalMatrix(Vector2u startPosition, Vector2u matrixDimensions):
+	startPosition(startPosition), matrixDimensions(matrixDimensions), matrix()
+{
+	for (size_t i = 0; i < matrixDimensions.x; i++) matrix.push_back(CrystalVectorType());
+}
+
+CrystalMatrix::CrystalMatrix(Vector2u startPosition, Vector2u matrixDimensions, sf::Sound * combo_s, sf::Sound * newrow):
+	startPosition(startPosition), matrixDimensions(matrixDimensions), matrix(), combo_s(combo_s), newrow(newrow)
 {
 	for (size_t i = 0; i < matrixDimensions.x; i++) matrix.push_back(CrystalVectorType());
 }
@@ -27,7 +33,8 @@ bool CrystalMatrix::addRandomCrystalRowToMatrix()
 		matrix[i].push_front(new Crystal((CrystalColor)(std::rand() % CrystalColor::_CRYSTAL_COLOR_SIZE)));
 		if(matrixDimensions.y <= matrix[i].size()) return true;
 	}
-
+	newrow->play();
+	
 	return false;
 }
 
