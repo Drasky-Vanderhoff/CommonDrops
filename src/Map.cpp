@@ -2,43 +2,72 @@
 
 using namespace sf;
 
-Map::Map(const Texture& backgroundTexture, const Texture& tileMapTexture,
-	const Vector2i& tileMapFrameSize, const TilesPositionsType& positions)
+Map::Map(
+    const Texture& backgroundTexture,
+    const Texture& tileMapTexture,
+    const Vector2i& tileMapFrameSize,
+    const TilesPositionsType& positions
+)
+    : map(nullptr),
+      texture(backgroundTexture.getSize())
 {
-	Renderable background = Renderable(backgroundTexture);
-	
-	texture.create(backgroundTexture.getSize().x, backgroundTexture.getSize().y);
-	texture.clear(Color::White);
-	texture.draw(background.getSprite());
+    const Renderable background(backgroundTexture);
 
-	TilesType tiles = TilesType();
-	Vector2i tilesPositions(tileMapTexture.getSize().x / tileMapFrameSize.x, tileMapTexture.getSize().y / tileMapFrameSize.y);
+    texture.clear(Color::White);
+    texture.draw(background.getSprite());
 
-	// Prepare tiles for loading of a specific map.
-	for (size_t i = 0; i < tilesPositions.x; i++)
-		for (size_t j = 0; j < tilesPositions.y; j++)
-			tiles.push_back(Renderable(tileMapTexture, tileMapFrameSize, Vector2i(tileMapFrameSize.x * i, tileMapFrameSize.y * j)));
+    TilesType tiles;
 
-	// Render the tiles over the background.
-	for (TilesPositionsType::const_iterator it = positions.begin(); it != positions.end(); ++it) 
-		this->renderTileinPosition(tiles[it->z].getSprite(), Vector2f(it->x * tileMapFrameSize.x, it->y * tileMapFrameSize.y));
+    const Vector2i tilesDimensions(
+        static_cast<int>(tileMapTexture.getSize().x) / tileMapFrameSize.x,
+        static_cast<int>(tileMapTexture.getSize().y) / tileMapFrameSize.y
+    );
 
-	map = new Renderable(texture.getTexture());
+    for (int x = 0; x < tilesDimensions.x; ++x)
+    {
+        for (int y = 0; y < tilesDimensions.y; ++y)
+        {
+            tiles.emplace_back(
+                tileMapTexture,
+                tileMapFrameSize,
+                Vector2i(
+                    tileMapFrameSize.x * x,
+                    tileMapFrameSize.y * y
+                )
+            );
+        }
+    }
+
+    for (const auto& position : positions)
+    {
+        renderTileInPosition(
+            tiles[position.z].getSprite(),
+            Vector2f(
+                static_cast<float>(position.x * tileMapFrameSize.x),
+                static_cast<float>(position.y * tileMapFrameSize.y)
+            )
+        );
+    }
+
+    texture.display();
+    map = new Renderable(texture.getTexture());
 }
 
-void Map::renderTileinPosition(Sprite sprite, Vector2f position)
+void Map::renderTileInPosition(
+    Sprite sprite,
+    const Vector2f position
+)
 {
-	sprite.setPosition(position);
-	texture.draw(sprite);
-	texture.display();
+    sprite.setPosition(position);
+    texture.draw(sprite);
 }
 
 void Map::render(RenderWindow* window)
 {
-	window->draw(map->getSprite());
+    window->draw(map->getSprite());
 }
 
 Map::~Map()
 {
-	delete map;
+    delete map;
 }

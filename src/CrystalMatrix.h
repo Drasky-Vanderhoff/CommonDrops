@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Audio/Sound.hpp>
 #include "Crystal.h"
 #include <deque>
 

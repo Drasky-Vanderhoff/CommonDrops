@@ -5,6 +5,8 @@
 #include <SFML/Audio.hpp>
 #include <sstream>
 #include <fstream>
+#include <iostream>
+#include <optional>
 #include <inipp.h>
 #include "Renderable.h"
 #include "Animatable.h"
@@ -31,16 +33,12 @@ int main()
 	ini.parse(is);
 
 	// Create a video mode object 
-	VideoMode vm(windowsResolution.x, windowsResolution.y);
+	VideoMode vm(windowsResolution);
 
 	// Create and open a window for the game 
 	std::string title;
 	inipp::extract(ini.sections["DEFAULT"]["title"], title);
-	RenderWindow window(vm, title, Style::Resize);
-
-	// Initializing Renderable class
-	Renderable::initializeClass(&window);
-
+	RenderWindow window(vm, title, Style::Default);
 	// Variable for update the scene
 	Clock clock;
 	bool isPaused = true;
@@ -56,43 +54,37 @@ int main()
 	std::string move_sFile;
 	inipp::extract(ini.sections["DEFAULT"]["move_sound"], move_sFile);
 	moveBuffer.loadFromFile(move_sFile);
-	Sound move;
-	move.setBuffer(moveBuffer);
+	Sound move(moveBuffer);
 
 	SoundBuffer catch_sBuffer;
 	std::string catch_sFile;
 	inipp::extract(ini.sections["DEFAULT"]["catch_sound"], catch_sFile);
 	catch_sBuffer.loadFromFile(catch_sFile);
-	Sound catch_s;
-	catch_s.setBuffer(catch_sBuffer);
+	Sound catch_s(catch_sBuffer);
 
 	SoundBuffer throw_sBuffer;
 	std::string throw_sFile;
 	inipp::extract(ini.sections["DEFAULT"]["throw_sound"], throw_sFile);
 	throw_sBuffer.loadFromFile(throw_sFile);
-	Sound throw_s;
-	throw_s.setBuffer(throw_sBuffer);
+	Sound throw_s(throw_sBuffer);
 
 	SoundBuffer combo_sBuffer;
 	std::string combo_sFile;
 	inipp::extract(ini.sections["DEFAULT"]["combo_sound"], combo_sFile);
 	combo_sBuffer.loadFromFile(combo_sFile);
-	Sound combo_s;
-	combo_s.setBuffer(combo_sBuffer);
+	Sound combo_s(combo_sBuffer);
 
 	SoundBuffer newrowBuffer;
 	std::string newrow_sFile;
 	inipp::extract(ini.sections["DEFAULT"]["newrow_sound"], newrow_sFile);
 	newrowBuffer.loadFromFile(newrow_sFile);
-	Sound newrow;
-	newrow.setBuffer(newrowBuffer);
+	Sound newrow(newrowBuffer);
 
 	SoundBuffer gameOverBuffer;
 	std::string gameOver_sFile;
 	inipp::extract(ini.sections["DEFAULT"]["gameover_sound"], gameOver_sFile);
 	gameOverBuffer.loadFromFile(gameOver_sFile);
-	Sound gameOver_s;
-	gameOver_s.setBuffer(gameOverBuffer);
+	Sound gameOver_s(gameOverBuffer);
 
 	
 	// Make a background sprite
@@ -165,12 +157,15 @@ int main()
 	unsigned int score = 0;
 
 	Font font;
-	font.loadFromFile("fonts/KOMIKAP_.ttf");
 
-	Text messageText;
-	Text scoreText;
-	messageText.setFont(font);
-	scoreText.setFont(font);
+	if (!font.openFromFile("fonts/KOMIKAP_.ttf"))
+	{
+		std::cerr << "Failed to load fonts/KOMIKAP_.ttf\n";
+		return 1;
+	}
+
+	Text messageText(font);
+	Text scoreText(font);
 	messageText.setString("Use <- and -> to move\n x to grab and c to release the balls\nPress Enter to start!");
 	scoreText.setString("Score = 0");
 	messageText.setCharacterSize(15);
@@ -181,12 +176,16 @@ int main()
 	// Position the text 
 	FloatRect textRect = messageText.getLocalBounds();
 
-	messageText.setOrigin(textRect.left + textRect.width / 2.0f,
-						  textRect.top + textRect.height / 2.0f);
+	messageText.setOrigin(
+		textRect.position + textRect.size / 2.0f
+	);
 
-	messageText.setPosition(windowsResolution.x / 2.0f, windowsResolution.y / 2.0f);
+	messageText.setPosition({
+		windowsResolution.x / 2.0f,
+		windowsResolution.y / 2.0f
+	});
 
-	scoreText.setPosition(20, 20);
+	scoreText.setPosition({20.0f, 20.0f});
 
 	// Player Input
 	bool acceptInput = false;
@@ -200,22 +199,25 @@ int main()
 		Handle the players actions
 		****************************************
 		*/
-		
-		Event event;
-				
-		while (window.pollEvent(event))
+		while (const std::optional event = window.pollEvent())
 		{
-			if (event.type == Event::KeyReleased && !isPaused)
+			if (event->is<Event::Closed>())
 			{
-				// Listen for key presses again 
+				window.close();
+			}
+			else if (
+				event->is<Event::KeyReleased>() &&
+				!isPaused
+			)
+			{
 				playerMovements++;
 				acceptInput = true;
 			}
 		}
 		
-		if (Keyboard::isKeyPressed(Keyboard::Escape)) window.close();
+		if (Keyboard::isKeyPressed(Keyboard::Key::Escape)) window.close();
 
-        if (isPaused && Keyboard::isKeyPressed(Keyboard::Return))
+        if (isPaused && Keyboard::isKeyPressed(Keyboard::Key::Enter))
 		{
 			isPaused = false;
 			score = 0;
