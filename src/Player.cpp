@@ -30,7 +30,7 @@ bool Player::processEvents(bool *gameOver, unsigned int* score)
 {
 	bool result = true;
 
-	if (Keyboard::isKeyPressed(Keyboard::Left))
+	if (Keyboard::isKeyPressed(Keyboard::Key::Left))
 	{
 		move->play(); 
 		if (playerPosition > 0) playerPosition--;
@@ -39,7 +39,7 @@ bool Player::processEvents(bool *gameOver, unsigned int* score)
 		result = false;
 	}
 
-	if (Keyboard::isKeyPressed(Keyboard::Right))
+	if (Keyboard::isKeyPressed(Keyboard::Key::Right))
 	{
 		if (playerPosition < playerLimitPosition) playerPosition++;
 		character->move(characterInitialPosition.x + playerPosition * 32, characterInitialPosition.y);
@@ -48,7 +48,7 @@ bool Player::processEvents(bool *gameOver, unsigned int* score)
 		result = false;
 	}
 
-	if (Keyboard::isKeyPressed(Keyboard::X) && 
+	if (Keyboard::isKeyPressed(Keyboard::Key::X) && 
 		(currentColor == CrystalColor::_CRYSTAL_COLOR_SIZE ||
 		 currentColor == objective->getBackCrystalColor(playerPosition)))
 	{
@@ -60,7 +60,7 @@ bool Player::processEvents(bool *gameOver, unsigned int* score)
 		result = false;
 	}
 
-	if (Keyboard::isKeyPressed(Keyboard::C))
+	if (Keyboard::isKeyPressed(Keyboard::Key::C))
 	{
 		if (stack.getBackCrystalColor(0) != CrystalColor::_CRYSTAL_COLOR_SIZE && !*gameOver) {
 			while (stack.getBackCrystalColor(0) != CrystalColor::_CRYSTAL_COLOR_SIZE && !*gameOver)

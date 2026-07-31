@@ -3,7 +3,6 @@
 using namespace sf;
 
 static Clock *_Animatable_clock = nullptr;
-static RenderWindow *_Renderable_window;
 
 
 void Animatable::initializeClass(Clock *clock) {

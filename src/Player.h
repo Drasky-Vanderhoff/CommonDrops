@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Audio/Sound.hpp>
 #include "Animatable.h"
 #include "CrystalMatrix.h"
 #include "Crystal.h"
