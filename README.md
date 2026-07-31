@@ -1,8 +1,8 @@
 # CommonDrops
 
-CommonDrops is a free, open-source clone of Magical Drop written in C++ using SFML.
+Written in C++ using SFML.
 
-The project was originally created as a learning exercise and because I love Magical Drop. The current version includes a basic playable survival mode.
+The current version includes a basic playable survival mode.
 
 ## Status
 
