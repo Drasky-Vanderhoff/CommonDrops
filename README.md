@@ -6,22 +6,18 @@ The project was originally created as a learning exercise and because I love Mag
 
 ## Status
 
-The project currently builds and runs on macOS using CMake and SFML 2.6.
+The project currently builds and runs on macOS using CMake and SFML 3.1.0.
 
-Linux and Windows should also be supported through CMake, provided that a compatible SFML 2.x installation is available, but they have not yet been tested after the CMake migration.
+Linux and Windows should also be supported through CMake.
 
 ## Requirements
 
+- Git
+- CMake 3.28 or newer
 - A C++17-compatible compiler
-- CMake 3.16 or newer
-- SFML 2.5 or 2.6 with these components:
-  - Graphics
-  - Window
-  - System
-  - Audio
-- Git and an internet connection during the initial CMake configuration
+- An internet connection during the initial CMake configuration
 
-[IniPP](https://github.com/mcmtroffaes/inipp) is downloaded automatically by CMake and does not need to be installed separately.
+SFML 3.1.0 and IniPP are downloaded and built automatically by CMake. They do not need to be installed separately.
 
 ## Clone
 
@@ -32,19 +28,22 @@ cd CommonDrops
 
 ## Building on macOS
 
-Install the dependencies with Homebrew:
+Install the Xcode command-line tools:
 
 ```bash
-brew install cmake sfml@2
+xcode-select --install
+```
+
+Install CMake using Homebrew:
+
+```bash
+brew install cmake
 ```
 
 Configure the project:
 
 ```bash
-cmake \
-  -S src \
-  -B build \
-  -DCMAKE_PREFIX_PATH="$(brew --prefix sfml@2)"
+cmake -S src -B build -DCMAKE_BUILD_TYPE=Release
 ```
 
 Build it:
@@ -59,14 +58,44 @@ Run it:
 cmake -E chdir src ../build/CommonDrops
 ```
 
-## Building on Linux or another Unix-like system
+You do not need to install SFML using Homebrew. The required SFML version is downloaded automatically during CMake configuration.
 
-Install CMake, a C++17 compiler, and SFML 2.5 or 2.6 using your operating system's package manager.
+## Building on Linux
 
-Configure and build:
+Install Git, CMake, a C++17 compiler, and SFML's system dependencies.
+
+On Ubuntu and other Debian-based distributions:
 
 ```bash
-cmake -S src -B build
+sudo apt update
+
+sudo apt install \
+    build-essential \
+    cmake \
+    git \
+    libxrandr-dev \
+    libxcursor-dev \
+    libxi-dev \
+    libudev-dev \
+    libfreetype-dev \
+    libflac-dev \
+    libvorbis-dev \
+    libgl1-mesa-dev \
+    libegl1-mesa-dev \
+    libharfbuzz-dev \
+    libmbedtls-dev \
+    libssh2-1-dev
+```
+
+Configure the project:
+
+```bash
+cmake -S src -B build -DCMAKE_BUILD_TYPE=Release
+```
+
+Build it:
+
+```bash
 cmake --build build --parallel
 ```
 
@@ -76,27 +105,20 @@ Run:
 cmake -E chdir src ../build/CommonDrops
 ```
 
-When SFML is installed in a non-standard location, provide its installation prefix:
 
-```bash
-cmake \
-  -S src \
-  -B build \
-  -DCMAKE_PREFIX_PATH="/path/to/sfml"
-```
 
 ## Building on Windows
 
 Install:
 
-- CMake
-- A C++17-compatible compiler
-- SFML 2.5 or 2.6
+- Git
+- CMake 3.28 or newer
+- Visual Studio 2022 with the **Desktop development with C++** workload
 
-Configure CMake with the location of SFML:
+Open PowerShell in the repository directory and configure the project:
 
 ```powershell
-cmake -S src -B build -DCMAKE_PREFIX_PATH="C:/path/to/SFML"
+cmake -S src -B build
 ```
 
 Build a release version:
@@ -105,13 +127,25 @@ Build a release version:
 cmake --build build --config Release
 ```
 
-Run the game with `src` as the working directory:
+Run it:
 
 ```powershell
 cmake -E chdir src ../build/Release/CommonDrops.exe
 ```
 
-When using a dynamic SFML build, ensure that the required SFML DLL files are either beside the executable or available through `PATH`.
+Windows has not yet been tested after the SFML 3.1 migration.
+
+## Working directory
+
+The game currently loads its configuration and assets using paths relative to the `src` directory.
+
+For this reason, run the executable using:
+
+```bash
+cmake -E chdir src ../build/CommonDrops
+```
+
+Running the executable directly from the repository root may prevent it from finding `commondrops.ini`, graphics, fonts, music, or sound files.
 
 ## Controls
 
